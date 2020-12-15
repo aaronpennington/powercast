@@ -76,11 +76,10 @@ public class PlayerControlFragment extends Fragment {
 
         // prevent the controls from disappearing
         playerView.setControllerShowTimeoutMs(0);
+        playerView.setControllerHideOnTouch(false);
 
         // Inflate the layout for this fragment
         return rootView;
-
-
     }
 
     @Override
