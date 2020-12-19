@@ -77,7 +77,7 @@ class SubscriptionsListAdapter extends RecyclerView.Adapter<SubscriptionsListAda
     }
 
     private void fragmentJump(String podcast_id) {
-        PodcastDirectoryFragment pdFragment = PodcastDirectoryFragment.newInstance(uid, podcast_id);
+        PodcastDirectoryFragment pdFragment = PodcastDirectoryFragment.newInstance(uid, podcast_id, true);
         switchContent(R.id.search_container, pdFragment, podcast_id);
     }
 

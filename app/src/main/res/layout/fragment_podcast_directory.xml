@@ -19,11 +19,13 @@
 
     <TextView
         android:id="@+id/pDirTitleTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="TextView"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -31,20 +33,29 @@
         app:layout_constraintStart_toEndOf="@+id/pDirImageView"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/pDirDescriptionTextView"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="TextView"
-        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/pDirEpisodesRecyclerView"
         app:layout_constraintEnd_toStartOf="@+id/subscribeButton"
         app:layout_constraintStart_toEndOf="@+id/pDirImageView"
-        app:layout_constraintTop_toBottomOf="@+id/pDirTitleTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/pDirTitleTextView">
+
+        <TextView
+            android:id="@+id/pDirDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="TextView"
+            android:textSize="14sp" />
+    </ScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pDirEpisodesRecyclerView"
@@ -58,10 +69,10 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/subscribeButton"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:clickable="true"
-        android:src="@android:drawable/star_on"
+        android:src="@drawable/ic_nav_plus"
         app:layout_constraintBottom_toTopOf="@+id/pDirEpisodesRecyclerView"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

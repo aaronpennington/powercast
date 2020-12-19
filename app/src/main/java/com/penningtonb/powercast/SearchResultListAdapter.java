@@ -52,7 +52,7 @@ class SearchResultListAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
     }
 
     private void fragmentJump(String podcast_id) {
-        PodcastDirectoryFragment pdFragment = PodcastDirectoryFragment.newInstance(uid, podcast_id);
+        PodcastDirectoryFragment pdFragment = PodcastDirectoryFragment.newInstance(uid, podcast_id, false);
         switchContent(R.id.search_container, pdFragment, podcast_id);
     }
 

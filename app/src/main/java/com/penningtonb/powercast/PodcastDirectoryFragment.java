@@ -2,6 +2,9 @@ package com.penningtonb.powercast;
 
 import android.content.Context;
 import android.os.Bundle;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,15 +52,19 @@ public class PodcastDirectoryFragment extends Fragment {
     private ArrayList<DirectoryEpisode> episode_titles;
     private ImageView podcastImage;
     private FloatingActionButton subscribeButton;
+    private Context mContext;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "uid";
     private static final String ARG_PARAM2 = "podcast_id";
+    private static final String ARG_PARAM3 = "isSubbed";
 
     // TODO: Rename and change types of parameters
     private String uid;
     private String podcast_id;
+    private boolean isSubbed;
 
     /**
      * Use this factory method to create a new instance of
@@ -68,11 +75,12 @@ public class PodcastDirectoryFragment extends Fragment {
      * @return A new instance of fragment PodcastDirectoryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PodcastDirectoryFragment newInstance(String uid, String podcast_id) {
+    public static PodcastDirectoryFragment newInstance(String uid, String podcast_id, boolean isSubbed) {
         PodcastDirectoryFragment fragment = new PodcastDirectoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, uid);
         args.putString(ARG_PARAM2, podcast_id);
+        args.putBoolean(ARG_PARAM3, isSubbed);
         fragment.setArguments(args);
         return fragment;
     }
@@ -87,11 +95,13 @@ public class PodcastDirectoryFragment extends Fragment {
         if (getArguments() != null) {
             uid = getArguments().getString(ARG_PARAM1);
             podcast_id = getArguments().getString(ARG_PARAM2);
+            isSubbed = getArguments().getBoolean(ARG_PARAM3);
         }
 
         episode_titles = new ArrayList<DirectoryEpisode>();
 
         resultListAdapter = new DirectoryResultListAdapter(episode_titles);
+        mContext = this.getContext();
     }
 
     @Override
@@ -108,6 +118,13 @@ public class PodcastDirectoryFragment extends Fragment {
         descText = (TextView) view.findViewById(R.id.pDirDescriptionTextView);
         podcastImage = (ImageView) view.findViewById(R.id.pDirImageView);
         subscribeButton = (FloatingActionButton) view.findViewById(R.id.subscribeButton);
+
+        if (isSubbed) {
+            subscribeButton.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_nav_check));
+        }
+        else {
+            subscribeButton.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_nav_plus));
+        }
 
         // make Volley request
         getPodcast(podcast_id);
@@ -182,13 +199,33 @@ public class PodcastDirectoryFragment extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                // make a Toast here? or some feedback indication
-                Context context = getContext();
-                CharSequence text = "Subscribed!";
-                int duration = Toast.LENGTH_SHORT;
+                Gson gson = new Gson();
+                SubscribeAction subAction = gson.fromJson(response, SubscribeAction.class);
 
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                if (subAction.getStatus() == 201) {
+                    // make a Toast here? or some feedback indication
+                    Context context = getContext();
+                    CharSequence text = "Subscribed!";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                    // change drawable icon
+                    subscribeButton.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_nav_check));
+                }
+                else if (subAction.getStatus() == 202) {
+                    // make a Toast here? or some feedback indication
+                    Context context = getContext();
+                    CharSequence text = "Unsubscribed!";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                    // change drawable icon
+                    subscribeButton.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_nav_plus));
+                }
             }
         }, new Response.ErrorListener() {
             @Override

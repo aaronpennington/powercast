@@ -10,3 +10,16 @@ class Subscriptions {
         return podcast_ids;
     }
 }
+
+class SubscribeAction {
+    int status;
+    String message;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+}
