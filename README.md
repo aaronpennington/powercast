@@ -1,7 +1,7 @@
 # Powercast
 
 A podcast playing app for Android! Developed for my senior project at BYU-Idaho, and later as a side-hobby! 
-![App screenshot](https://raw.githubusercontent.com/aaronpennington/powercast/master/info/screenshot_01.png)
+![App screenshot](https://raw.githubusercontent.com/aaronpennington/powercast/master/info/screenshot_01.png | width=100)
 
 ## Sign Up and Get Started!
 
