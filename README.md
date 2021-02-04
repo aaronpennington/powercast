@@ -4,7 +4,7 @@ A podcast playing app for Android! Developed for my senior project at BYU-Idaho,
 
 <img src="https://github.com/favicon.ico" width="48">
 
-![App screenshot](https://raw.githubusercontent.com/aaronpennington/powercast/master/info/screenshot_01.png | width=100)
+<img src="https://raw.githubusercontent.com/aaronpennington/powercast/master/info/screenshot_01.png" width="100">
 
 ## Sign Up and Get Started!
 
