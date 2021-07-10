@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -20,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +39,7 @@ public class SubscriptionsFragment extends Fragment {
     private SubscriptionsListAdapter subscriptionsListAdapter;
     private ArrayList<DirectoryResponse> podcastList;
     private ArrayList<String> pidList;
+    TextView emptySubText;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,7 +91,10 @@ public class SubscriptionsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_subscriptions, container, false);
 
+        emptySubText = view.findViewById(R.id.emptySubsTextView);
+
         getUserSubscriptions(uid);
+
 
         // create the recycler view and populate with data
         recyclerView = view.findViewById(R.id.subRecyclerView);
@@ -111,6 +118,10 @@ public class SubscriptionsFragment extends Fragment {
                 Subscriptions subscriptions = gson.fromJson(response, Subscriptions.class);
                 pidList.addAll(subscriptions.getPodcastList());
                 pidToPodcast(pidList);
+//                System.out.println(pidList.size());
+                if (pidList.size() > 0) {
+                    emptySubText.setVisibility(TextView.INVISIBLE);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
