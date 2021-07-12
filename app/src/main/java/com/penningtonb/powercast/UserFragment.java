@@ -102,7 +102,7 @@ public class UserFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logout();
+                logout(mView);
             }
         });
 
@@ -117,18 +117,61 @@ public class UserFragment extends Fragment {
         return mView;
     }
 
-    public void logout() {
-        // set sharedprefs is_logged_in to false
-        SharedPreferences sharedPref = this.getActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+    public void logout(View view) {
+
+        // store logged in status in sharedprefs
+        SharedPreferences sharedPref = mActivity.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(getString(R.string.is_logged_in), false);
-        // set sharedprefs current_uid to "null"
-        editor.putString(getString(R.string.current_uid), "null");
-        // set sharedprefs current_user_email to "null"
-        editor.putString(getString(R.string.current_user_email), "null");
+        editor.putString(getString(R.string.current_uid), null);
+        editor.putString(getString(R.string.current_user_email), null);
         editor.apply();
 
         // call /logout with Volley
+//        RequestQueue queue = Volley.newRequestQueue(view.getContext());
+//        String url = "https://powercast-server.herokuapp.com/logout";
+//        final String finalUsername = email;
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                System.out.println(response);
+//
+//                // Throw error if needed
+//                if (response.equals("error")) {
+//                    // error handling here
+//                    System.out.println("Error: Unable to logout");
+//                }
+//
+//                // Log user out, refresh sharedPrefs
+//                else {
+//                    // store logged in status in sharedprefs
+//                    SharedPreferences sharedPref = mActivity.getSharedPreferences("prefs", Context.MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = sharedPref.edit();
+//                    editor.putBoolean(getString(R.string.is_logged_in), false);
+//                    editor.putString(getString(R.string.current_uid), null);
+//                    editor.putString(getString(R.string.current_user_email), null);
+//                    editor.apply();
+//
+//                    // go to login activity now
+//                    Intent intent = new Intent(mView.getContext(), LoginActivity.class);
+//                    startActivity(intent);
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d("USER ACTIVITY", "Request failed!");
+//            }
+//        }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("username", finalUsername);
+//                return params;
+//            }
+//        };
+//
+//        queue.add(stringRequest);
 
         // send user to LoginActivity
         Intent intent = new Intent(this.getContext(), LoginActivity.class);
