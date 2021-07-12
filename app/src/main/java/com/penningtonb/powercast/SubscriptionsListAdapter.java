@@ -1,8 +1,11 @@
 package com.penningtonb.powercast;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +34,13 @@ class SubscriptionsListAdapter extends RecyclerView.Adapter<SubscriptionsListAda
 
     private String uid;
     private ArrayList<DirectoryResponse> podcastList;
+    private int spanCount;
     Context mContext;
 
-    public SubscriptionsListAdapter(String uid, ArrayList<DirectoryResponse> podcastList) {
+    public SubscriptionsListAdapter(String uid, ArrayList<DirectoryResponse> podcastList, int spanCount) {
         this.uid = uid;
         this.podcastList = podcastList;
+        this.spanCount = spanCount;
     }
 
     @Override
@@ -59,7 +64,22 @@ class SubscriptionsListAdapter extends RecyclerView.Adapter<SubscriptionsListAda
         public mRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView.findViewById(R.id.itemSubs);
+
             itemImage = view.findViewById(R.id.subItemImage);
+
+            /* Setting the width and height for each podcast subscription image.
+            This is done by first getting the display dimensions, then setting both the
+            width and height of the ImageView to the display width divided by the number of
+            columns needed. This creates rows of square images, which adjusts to the dimensions
+            of any display!
+             */
+            android.view.ViewGroup.LayoutParams layoutParams = itemImage.getLayoutParams();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            ((Activity) mContext).getWindowManager()
+                    .getDefaultDisplay().getMetrics(displayMetrics);
+            layoutParams.width = displayMetrics.widthPixels / spanCount;
+            layoutParams.height = displayMetrics.widthPixels / spanCount;
+            itemImage.setLayoutParams(layoutParams);
         }
 
         public ImageView getItemImage() { return itemImage; }

@@ -40,6 +40,7 @@ public class SubscriptionsFragment extends Fragment {
     private ArrayList<DirectoryResponse> podcastList;
     private ArrayList<String> pidList;
     TextView emptySubText;
+    private int spanCount;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,7 +83,8 @@ public class SubscriptionsFragment extends Fragment {
 
         pidList = new ArrayList<String>();
         podcastList = new ArrayList<DirectoryResponse>();
-        subscriptionsListAdapter = new SubscriptionsListAdapter(uid, podcastList);
+        spanCount = 3;
+        subscriptionsListAdapter = new SubscriptionsListAdapter(uid, podcastList, spanCount);
     }
 
     @Override
@@ -98,7 +100,7 @@ public class SubscriptionsFragment extends Fragment {
 
         // create the recycler view and populate with data
         recyclerView = view.findViewById(R.id.subRecyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), spanCount));
         recyclerView.setAdapter(subscriptionsListAdapter);
 
         return view;
