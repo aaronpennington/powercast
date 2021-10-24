@@ -153,9 +153,12 @@ public class SubscriptionsFragment extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     // our response is a simple list of podcast ids.
-                    Gson gson = new Gson();
-                    DirectoryResponse podcast = gson.fromJson(response, DirectoryResponse.class);
                     System.out.println(response);
+
+                    Gson gson = new Gson();
+
+                    DirectoryResponse podcast = gson.fromJson(response, DirectoryResponse.class);
+
                     System.out.println(podcast.getBody().getId());
                     podcastList.add(podcast);
                     // Update the RecyclerView
