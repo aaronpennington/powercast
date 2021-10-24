@@ -153,37 +153,22 @@ public class PodcastDirectoryFragment extends Fragment {
 
         // use Volley to make a network request to our middleware, then parse the JSON result
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url = "https://powercast-server.herokuapp.com/podcast/all_episodes/" + query;
+        String url = "https://powercast-server.herokuapp.com/podcast/" + query;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                /* The response is a (very large) array of concatenated JSON objects.
-                We load that array into a DirectoryFull object, then loop through each element in
-                that array.
-                Each object represents an individual podcast directory object, and contains up to
-                10 podcast episodes. So we will also loop through each individual DirectoryResponse
-                object and get all the episodes.
-                (Stay with me, I know this is confusing as heck)
-                We will also get the podcast title, podcast description, and podcast image from the
-                very first DirectoryResponse, since we only need those things once.
-                 */
                 Gson gson = new Gson();
-                DirectoryFull dirFull = gson.fromJson(response, DirectoryFull.class);
-
-                String podcast_title = dirFull.getResponse().get(0).getBody().getTitle();
-                String podcast_desc = dirFull.getResponse().get(0).getBody().getDescription();
+                DirectoryResponse dirResponse = gson.fromJson(response, DirectoryResponse.class);
+                String podcast_title = dirResponse.getBody().getTitle();
+                String podcast_desc = dirResponse.getBody().getDescription();
 
                 titleText.setText(podcast_title);
                 descText.setText(podcast_desc);
-                Picasso.get().load(dirFull.getResponse().get(0).getBody().getImage()).into(podcastImage);
+                Picasso.get().load(dirResponse.getBody().getImage()).into(podcastImage);
 
-                for (int x = 0; x < dirFull.getResponse().size(); x++) {
-                    DirectoryResponse dirResponse = dirFull.getResponse().get(x);
-
-                    for (int i = 0; i < 10; i++) {
-                        episode_titles.add(dirResponse.getBody().getEpisodes().get(i));
-                    }
+                for (int i = 0; i < 10; i++) {
+                    episode_titles.add(dirResponse.getBody().getEpisodes().get(i));
                 }
 
                 // Update the RecyclerView

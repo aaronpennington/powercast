@@ -2,28 +2,6 @@ package com.penningtonb.powercast;
 
 import java.util.ArrayList;
 
-/*
- * All directory related classes.
- */
-class Directory {
-
-}
-
-/***
-Represents an array of podcast directories, with each element in the array containing up to 10
-episodes. This class exists primarily as a workaround for the clunky API, which only allows you to
-get 10 episodes of a podcast at a time, so we make several successive API calls until all episodes
-are contained in this class.
- */
-class DirectoryFull {
-    private ArrayList<DirectoryResponse> response;
-    public ArrayList<DirectoryResponse> getResponse() {return response;}
-    public void setResponse(ArrayList<DirectoryResponse> response) {this.response = response;}
-}
-
-/**
- * Represents the response from a single call to the /podcast endpoint.
- */
 class DirectoryResponse {
     private int statusCode;
     private DirectoryPodcast body;
@@ -45,6 +23,9 @@ class DirectoryResponse {
     }
 }
 
+class Directory {
+
+}
 
 class DirectoryPodcast {
     private String id;
